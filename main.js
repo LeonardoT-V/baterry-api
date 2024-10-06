@@ -1,24 +1,33 @@
-import './style.css'
-import javascriptLogo from './javascript.svg'
-import viteLogo from '/vite.svg'
-import { setupCounter } from './counter.js'
+import { selectorIcon } from "./icon.js";
 
-document.querySelector('#app').innerHTML = `
-  <div>
-    <a href="https://vitejs.dev" target="_blank">
-      <img src="${viteLogo}" class="logo" alt="Vite logo" />
-    </a>
-    <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript" target="_blank">
-      <img src="${javascriptLogo}" class="logo vanilla" alt="JavaScript logo" />
-    </a>
-    <h1>Hello Vite!</h1>
-    <div class="card">
-      <button id="counter" type="button"></button>
-    </div>
-    <p class="read-the-docs">
-      Click on the Vite logo to learn more
-    </p>
-  </div>
-`
+const $chargingState = document.getElementById("battery-chargingState");
+const $level = document.getElementById("battery-level");
+const $icon = document.getElementById("battery-icon");
 
-setupCounter(document.querySelector('#counter'))
+function updateBatteryUI(battery) {
+  $level.textContent = battery.level * 100 + "%";
+  $icon.innerHTML = selectorIcon(battery.level);
+  if (battery.charging === true) {
+    $chargingState.style.display = "block";
+  } else {
+    $chargingState.style.display = "none";
+  }
+}
+
+if ("getBattery" in navigator) {
+  navigator.getBattery().then((battery) => {
+    updateBatteryUI(battery);
+    battery.addEventListener(
+      "levelchange",
+      updateBatteryUI.bind(null, battery)
+    );
+    battery.addEventListener(
+      "chargingchange",
+      updateBatteryUI.bind(null, battery)
+    );
+  });
+} else {
+  ChromeSamples.setStatus(
+    "The Battery Status API is not supported on " + "this platform."
+  );
+}

@@ -1,13 +1,36 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Vite App</title>
+    <title>Battery API</title>
+    <meta name="description" content="Test of API Battery in Chrome" />
+    <link rel="stylesheet" href="/style.css" />
   </head>
+  <script type="module" src="/main.js"></script>
   <body>
-    <div id="app"></div>
-    <script type="module" src="/main.js"></script>
+    <h1 class="title">Battery<span>API</span></h1>
+    <main id="battery-icon" class="battery-container"></main>
+    <div class="status-container">
+      <div id="battery-chargingState" style="display: none">
+        <svg
+          style="height: 32px; width: 32px; color: var(--color-green)"
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 256 256"
+        >
+          <rect width="256" height="256" fill="none" />
+          <polygon
+            points="160 16 144 96 208 120 96 240 112 160 48 136 160 16"
+            fill="none"
+            stroke="currentColor"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="16"
+          />
+        </svg>
+      </div>
+      <p id="battery-level">...</p>
+    </div>
   </body>
 </html>
